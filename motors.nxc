@@ -1,0 +1,25 @@
+#include "NXCDefs.h"
+
+task main() {
+    SetOutput(OUT_A, 50);
+    SetOutput(OUT_B, 50);
+
+    // Resetar contadores de rotação para ambos os motores
+    ResetRotationCount(motorEsquerdo);
+    ResetRotationCount(motorDireito);
+
+    OnFwd(motorEsquerdo, 50);
+    OnFwd(motorDireito, 50);
+
+    while (true) {
+        int rotacaoMotorEsquerdo = MotorRotationCount(motorEsquerdo);
+        int rotacaoMotorDireito = MotorRotationCount(motorDireito);
+
+        // Condição para parar após uma volta
+        if (rotacaoMotorEsquerdo >= 360 || rotacaoMotorDireito >= 360) {
+            Off(motorEsquerdo);
+            Off(motorDireito);
+            break;
+        }
+    }
+}
